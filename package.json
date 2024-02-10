@@ -1,0 +1,24 @@
+{
+  "name": "cse341-library",
+  "version": "1.0.0",
+  "description": "Simple Node.JS Express application that maintains a children's library. Covered during weeks 5-8 of CSE 341.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "git-update": "git add . && git commit -m \"update\" && git push",
+    "swagger": "node ./swagger.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.1.1",
+    "swagger-ui-express": "^5.0.0"
+  }
+}
