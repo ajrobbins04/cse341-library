@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Martha Speaks",
+        "description": "The adventures of a ten-year-old girl named Helen Finney, who fed her dog Martha some alphabet soup and something very mysterious occurred: Martha can speak!",
+        "author": "Susan Meddaugh",
+        "numAvailable": 1,
+        "numTotal": 3,
+        "yearPublished": 1992
+    },
+    {
+        "title": "Stellaluna",
+        "description": "The story of a baby bat who loses sight of her mother and winds up raised alongside a trio of tiny birds in a nest.",
+        "author": "Janell Cannon",
+        "numAvailable": 0,
+        "numTotal": 2,
+        "yearPublished": 1993
+    },
+    {
+        "title": "Pinduli",
+        "description": "Pinduli, a young striped hyena, is hurt by the unkind words of Dog, Lion, and Zebra, but her clever trick in return promotes her clan's survival and spreads harmony throughout the savannah.",
+        "author": "Janell Cannon",
+        "numAvailable": 1,
+        "numTotal": 1,
+        "yearPublished": 2005
+    }
+]
