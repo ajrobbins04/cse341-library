@@ -2,8 +2,11 @@ const express = require('express');
 const cors = require('cors'); // cross-origin requests
 const bodyParser = require('body-parser'); // parses json requests
 const dotenv = require('dotenv').config(); // loads all environment variables from .env
+const swaggerUi = require('swagger-ui-express'); // apiDocument user interface
 const routes = require('./routes');
 const { connectDB } = require('./db/connect');
+
+// const swaggerDocument = require('./swagger.json'); // apiDocument (must come after interface)
 
 const app = express();
 const port = process.env.PORT || 8080;
