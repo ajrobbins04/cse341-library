@@ -1,0 +1,24 @@
+// LOCALHOST DEPLOY
+GET http://localhost:8080/  
+
+// display all books
+GET http://localhost:8080/books 
+GET http://localhost:8080/books/
+
+// display book by id
+GET http://localhost:8080/books/65c9b8bb2dabf4c21eb9bfda
+GET http://localhost:8080/books/65c9b8bb2dabf4c21eb9bfdb
+GET http://localhost:8080/books/65c9b8bb2dabf4c21eb9bfdc
+
+
+// PRODUCTION DEPLOY
+GET https://cse-341-library.onrender.com/
+
+// display all books
+GET https://cse-341-library.onrender.com/books 
+GET https://cse-341-library.onrender.com/books/
+
+// display book by id
+GET https://cse-341-library.onrender.com/books/65c9b8bb2dabf4c21eb9bfda
+GET https://cse-341-library.onrender.com/books/65c9b8bb2dabf4c21eb9bfdb
+GET https://cse-341-library.onrender.com/books/65c9b8bb2dabf4c21eb9bfdc

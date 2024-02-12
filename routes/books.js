@@ -6,10 +6,10 @@ const booksController = require('../controllers/books');
 
 const router = express.Router();
 
-router.get('/', booksController.getAllData);
-// router.post('/', contactsController.createContact);
+router.get('/', booksController.getAllBooks);
+router.post('/', booksController.addBook);
 
-// router.get('/:id', contactsController.getDataById);
+router.get('/:id', booksController.getBookById);
 // router.put('/:id', contactsController.updateContact);
 // router.delete('/:id', contactsController.deleteContact);
 
