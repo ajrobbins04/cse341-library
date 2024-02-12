@@ -17,8 +17,6 @@ connectDB();
 app.use(bodyParser.json());
 app.use(cors());
 
-// router.use('/', swaggerRoutes); // mount to be included in apiDocs
-// router.get('/', indexController.promptContactsRoute);
 app.use('/', routes);
 
 // create a port so the application can be tested on a browser

@@ -1,12 +1,13 @@
+// eslint-disable-next-line node/no-unpublished-require
 const swaggerAutogen = require('./node_modules/swagger-autogen')();
 
 // defines openAPI documentation information
 const doc = {
   info: {
-    title: 'Contacts API',
-    description: 'API of Known Contacts.',
+    title: `Children's Library API`,
+    description: `API for the children's section at a library.`,
   },
-  host: 'cse341-01-test.onrender.com',
+  host: 'cse-341-library.onrender.com',
   schemes: ['https'],
 };
 
@@ -19,6 +20,6 @@ const routes = ['./routes/index.js'];
 // documentation will be generated as soon as the
 // project starts at its root file
 swaggerAutogen(outputFile, routes, doc).then(async () => {
-  // eslint-disable-next-line import/extensions
-  await import('./server.js');
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax
+  await import('./server');
 });
