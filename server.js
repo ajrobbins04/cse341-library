@@ -3,9 +3,11 @@ const cors = require('cors'); // cross-origin requests
 const bodyParser = require('body-parser'); // parses json requests
 const dotenv = require('dotenv').config(); // loads all environment variables from .env
 const routes = require('./routes');
+const { connectDB } = require('./db/connect');
 
 const app = express();
 const port = process.env.PORT || 8080;
+connectDB();
 
 // parses incoming json requests to
 // access this data from req.body
