@@ -10,7 +10,7 @@ router.get('/', booksController.getAllBooks);
 router.post('/', booksController.addBook);
 
 router.get('/:id', booksController.getBookById);
-// router.put('/:id', contactsController.updateContact);
-// router.delete('/:id', contactsController.deleteContact);
+router.put('/:id', booksController.updateBook);
+router.delete('/:id', booksController.deleteBook);
 
 module.exports = router;

@@ -55,9 +55,58 @@ const addBook = async (req, res) => {
   }
 };
 
+const updateBook = async (req, res) => {
+  // retrieve id from request parameters
+  const bookId = new ObjectId(req.params.id);
+  try {
+    // retrieve book that will be updated by id
+    const currBook = await Book.findById(bookId);
+
+    if (!currBook) {
+      // the book with the given ID is not found
+      res.status(404).json({ error: 'Book not found.' });
+    }
+
+    // Update the current book with the new data
+    currBook.title = req.body.title;
+    currBook.description = req.body.description;
+    currBook.authorFirstName = req.body.authorFirstName;
+    currBook.authorLastName = req.body.authorLastName;
+    currBook.numAvailable = req.body.numAvailable;
+    currBook.numTotal = req.body.numTotal;
+    currBook.yearPublished = req.body.yearPublished;
+
+    // Save the updated book
+    const result = await currBook.save();
+    console.log(result);
+    // send 204 status when book is successfully updated
+    res.status(204).send();
+  } catch (error) {
+    console.error('Error updating book:', error);
+    res.status(500).json({ error: 'Error occurred while updating a book.' });
+  }
+};
+
+const deleteBook = async (req, res) => {
+  // retrieve id from request parameters
+  const bookId = new ObjectId(req.params.id);
+  try {
+    // delete book by the associated id
+    const result = await Book.findByIdAndDelete(bookId);
+    console.log(result);
+    // send 200 status when book successfully deleted
+    res.status(200).send();
+  } catch (error) {
+    console.error('Error deleting book:', error);
+    res.status(500).json({ error: 'Error occurred while deleting a book.' });
+  }
+};
+
 // exports obj containing these methods
 module.exports = {
   getAllBooks,
   getBookById,
   addBook,
+  updateBook,
+  deleteBook,
 };
