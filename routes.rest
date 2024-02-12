@@ -37,19 +37,19 @@ Content-Type: application/json
   "yearPublished": 1963
 }
 
-PUT https://cse-341-library.onrender.com/books/65ca6497ab4d11733fbe8e37 HTTP/1.1
+PUT https://cse-341-library.onrender.com/books/65c9b8bb2dabf4c21eb9bfdb HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Where the Wild Things Are",
-  "description": "Tells the story of Max, a rambunctious and sensitive boy who feels misunderstood at home and escapes to an island where he meets mysterious and strange creatures whose emotions are as wild and unpredictable as their actions.",
-  "authorFirstName": "Maurice",
-  "authorLastName": "Sendak",
-  "numAvailable": 2,
+  "title": "Stellaluna",
+  "description": "The story of a baby bat who loses sight of her mother and winds up raised alongside a trio of tiny birds in a nest.",
+  "authorFirstName": "Janell",
+  "authorLastName": "Cannon",
+  "numAvailable": 1,
   "numTotal": 3,
-  "yearPublished": 1963
+  "yearPublished": 1993
 }
 
 
-DELETE https://cse-341-library.onrender.com/books/65ca6497ab4d11733fbe8e37 HTTP/1.1
+DELETE https://cse-341-library.onrender.com/books/65c9b8bb2dabf4c21eb9bfdc HTTP/1.1
 Content-Type: application/json
