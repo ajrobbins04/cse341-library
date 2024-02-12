@@ -15,8 +15,15 @@ connectDB();
 // parses incoming json requests to
 // access this data from req.body
 app.use(bodyParser.json());
-app.use(cors());
 
+// Use cors middleware to handle CORS headers
+const corsOptions = {
+  origin: '*',
+  methods: 'GET,PUT,POST,DELETE,OPTIONS',
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 app.use('/', routes);
 
 // create a port so the application can be tested on a browser

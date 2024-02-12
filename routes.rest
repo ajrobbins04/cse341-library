@@ -22,3 +22,21 @@ GET https://cse-341-library.onrender.com/books/
 GET https://cse-341-library.onrender.com/books/65c9b8bb2dabf4c21eb9bfda
 GET https://cse-341-library.onrender.com/books/65c9b8bb2dabf4c21eb9bfdb
 GET https://cse-341-library.onrender.com/books/65c9b8bb2dabf4c21eb9bfdc
+
+// add book
+POST https://cse-341-library.onrender.com/books/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Where the Wild Things Are",
+  "description": "Tells the story of Max, a rambunctious and sensitive boy who feels misunderstood at home and escapes to an island where he meets mysterious and strange creatures whose emotions are as wild and unpredictable as their actions.",
+  "authorFirstName": "Maurice",
+  "authorLastName": "Sendak",
+  "numAvailable": 1,
+  "numTotal": 2,
+  "yearPublished": 1963,
+}
+
+
+DELETE https://cse-341-library.onrender.com/books/65ca5b77bb1299f1276a8203 HTTP/1.1
+Content-Type: application/json
