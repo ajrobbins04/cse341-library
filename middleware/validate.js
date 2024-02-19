@@ -1,6 +1,6 @@
 const validator = require('../helpers/validate');
 
-const addBookValidation = async (req, res, next) => {
+const checkBook = async (req, res, next) => {
   const currentYear = new Date().getFullYear(); // max yearPublished value
   if (!req.body.description) {
     req.body.description = 'N/A'; // default description value when empty
@@ -33,5 +33,5 @@ const addBookValidation = async (req, res, next) => {
   }).catch((err) => console.log(err));
 };
 module.exports = {
-  addBookValidation,
+  checkBook,
 };
