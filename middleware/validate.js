@@ -24,13 +24,13 @@ const checkBook = async (req, res, next) => {
       res.status(412).send({
         // properties are stored in the response body
         success: false,
-        message: 'Validation failed',
-        data: err,
+        error: 'Book requirement validation failed',
+        details: err,
       });
     } else {
-      next(); // passes control to next middleware function if valid
+      next(); // passes control to next middleware function w/o err if valid
     }
-  }).catch((err) => console.log(err));
+  }).catch((err) => next(err));
 };
 module.exports = {
   checkBook,

@@ -8,10 +8,12 @@ const validation = require('../middleware/validate');
 const router = express.Router();
 
 router.get('/', booksController.getAllBooks);
+
+// verify book data meets requirements before adding/updating it
 router.post('/', validation.checkBook, booksController.addBook);
+router.put('/:id', validation.checkBook, booksController.updateBook);
 
 router.get('/:id', booksController.getBookById);
-router.put('/:id', validation.checkBook, booksController.updateBook);
 router.delete('/:id', booksController.deleteBook);
 
 module.exports = router;

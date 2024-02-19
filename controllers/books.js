@@ -13,11 +13,8 @@ const getAllBooks = async (req, res, next) => {
     // respond with ok status and the list of books
     return res.status(200).json(books);
   } catch (err) {
-    // display error details
-    console.error(
-      'Error occurred while retrieving data for all books:',
-      err.message,
-    );
+    // include error details
+    err.message = `Error occurred while retrieving data for all books: ${err.message}`;
     next(err);
   }
 };
@@ -37,7 +34,8 @@ const getBookById = async (req, res, next) => {
     // respond with ok status and the book
     return res.status(200).json(book);
   } catch (err) {
-    console.error('Error occurred while retrieving a book by id:', err.message);
+    // include error details
+    err.message = `Error occurred while retrieving a book by id: ${err.message}`;
     next(err);
   }
 };
@@ -62,10 +60,8 @@ const addBook = async (req, res, next) => {
     // return 201 status and the id of the new book
     res.status(201).json({ id: result._id });
   } catch (err) {
-    console.error(
-      'Error occurred while adding a book to MongoDB:',
-      err.message,
-    );
+    // include error details
+    err.message = `Error occurred while adding a book to MongoDB: ${err.message}`;
     next(err);
   }
 };
@@ -97,7 +93,8 @@ const updateBook = async (req, res, next) => {
     // send 204 status when book is successfully updated
     res.status(204).send();
   } catch (err) {
-    console.error('Error updating book:', err.message);
+    // include error details
+    err.message = `Error occurred while updating book: ${err.message}`;
     next(err);
   }
 };
@@ -115,7 +112,8 @@ const deleteBook = async (req, res, next) => {
     // send 200 status when book successfully deleted
     res.status(200).send();
   } catch (err) {
-    console.error('Error deleting book:', err.message);
+    // include error details
+    err.message = `Error occurred while deleting book: ${err.message}`;
     next(err);
   }
 };
