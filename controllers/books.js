@@ -1,35 +1,48 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable consistent-return */
 const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const { connectDB } = require('../db/connect');
 const Book = require('../models/books');
 
-const getAllBooks = async (req, res) => {
+const getAllBooks = async (req, res, next) => {
   try {
-    // find all contacts in the db
+    // find all books in the db
     const books = await Book.find();
-    console.log('Data from MongoDB:', books);
-    // respond with the list of contacts
-    res.json(books);
-  } catch (error) {
-    console.error('Error retrieving data from MongoDB:', error.message);
+
+    // respond with ok status and the list of books
+    return res.status(200).json(books);
+  } catch (err) {
+    // display error details
+    console.error(
+      'Error occurred while retrieving data for all books:',
+      err.message,
+    );
+    next(err);
   }
 };
 
-const getBookById = async (req, res) => {
+const getBookById = async (req, res, next) => {
   // retrieve id from request parameters
   const bookId = new ObjectId(req.params.id);
 
   try {
     // find and retrieve a specific book by id
     const book = await Book.findById(bookId);
-    console.log('Data from MongoDB:', book);
-    res.json(book);
-  } catch (error) {
-    console.error('Error retrieving data from MongoDB:', error.message);
+    if (!book) {
+      // return a 404 not found status response
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    // respond with ok status and the book
+    return res.status(200).json(book);
+  } catch (err) {
+    console.error('Error occurred while retrieving a book by id:', err.message);
+    next(err);
   }
 };
 
-const addBook = async (req, res) => {
+const addBook = async (req, res, next) => {
   try {
     // use Book model to add a new book
     const book = new Book({
@@ -47,15 +60,17 @@ const addBook = async (req, res) => {
     const result = await book.save();
 
     // return 201 status and the id of the new book
-    // eslint-disable-next-line no-underscore-dangle
     res.status(201).json({ id: result._id });
-  } catch (error) {
-    console.error('Error adding book:', error);
-    res.status(500).json({ error: 'Error occurred while adding a book.' });
+  } catch (err) {
+    console.error(
+      'Error occurred while adding a book to MongoDB:',
+      err.message,
+    );
+    next(err);
   }
 };
 
-const updateBook = async (req, res) => {
+const updateBook = async (req, res, next) => {
   // retrieve id from request parameters
   const bookId = new ObjectId(req.params.id);
   try {
@@ -64,7 +79,7 @@ const updateBook = async (req, res) => {
 
     if (!currBook) {
       // the book with the given ID is not found
-      res.status(404).json({ error: 'Book not found.' });
+      return res.status(404).json({ error: 'Book not found.' });
     }
 
     // Update the current book with the new data
@@ -78,27 +93,30 @@ const updateBook = async (req, res) => {
 
     // Save the updated book
     const result = await currBook.save();
-    console.log(result);
+
     // send 204 status when book is successfully updated
     res.status(204).send();
-  } catch (error) {
-    console.error('Error updating book:', error);
-    res.status(500).json({ error: 'Error occurred while updating a book.' });
+  } catch (err) {
+    console.error('Error updating book:', err.message);
+    next(err);
   }
 };
 
-const deleteBook = async (req, res) => {
+const deleteBook = async (req, res, next) => {
   // retrieve id from request parameters
   const bookId = new ObjectId(req.params.id);
   try {
     // delete book by the associated id
     const result = await Book.findByIdAndDelete(bookId);
-    console.log(result);
+
+    if (!result) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
     // send 200 status when book successfully deleted
     res.status(200).send();
-  } catch (error) {
-    console.error('Error deleting book:', error);
-    res.status(500).json({ error: 'Error occurred while deleting a book.' });
+  } catch (err) {
+    console.error('Error deleting book:', err.message);
+    next(err);
   }
 };
 

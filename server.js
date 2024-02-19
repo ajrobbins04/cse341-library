@@ -6,9 +6,12 @@ const swaggerUi = require('swagger-ui-express'); // apiDocument user interface
 const routes = require('./routes');
 const { connectDB } = require('./db/connect');
 const swaggerDocument = require('./swagger.json'); // apiDocument (must come after interface)
+const error = require('./middleware/error');
 
 const app = express();
 const port = process.env.PORT || 8080;
+
+// handles possible errors internally
 connectDB();
 
 // parses incoming json requests to
@@ -19,14 +22,14 @@ app.use(bodyParser.json());
 const corsOptions = {
   origin: '*',
   methods: 'GET,PUT,POST,DELETE,OPTIONS',
-  optionsSuccessStatus: 204,
 };
 app.use(cors(corsOptions));
 
-// specify url paths for apiDocumentation and contacts (inside routes)
+// specify url paths for apiDocumentation and books (which is in routes)
 app
   .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-  .use('/', routes);
+  .use('/', routes)
+  .use(error.sendError500);
 
 // create a port so the application can be tested on a browser
 app.listen(port, () => {
