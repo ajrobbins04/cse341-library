@@ -50,6 +50,32 @@ Content-Type: application/json
   "yearPublished": 1993
 }
 
-
 DELETE https://cse-341-library.onrender.com/books/65c9b8bb2dabf4c21eb9bfdc HTTP/1.1
 Content-Type: application/json
+
+
+POST https://cse-341-library.onrender.com/books/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Purple, Green, and Yellow",
+  "description": "The humorous tale of Brigid, a child who gets hold of super-indelible, never-come-off-until-you're-dead colored markers.",
+  "authorFirstName": "Robert",
+  "authorLastName": "Munsch",
+  "numAvailable": 1,
+  "numTotal": 3,
+  "yearPublished": 1992
+}
+
+PUT https://cse-341-library.onrender.com/books/65d3b07895109113d12310b7 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Purple, Green, and Yellow",
+  "description": "The humorous tale of Brigid, a child who gets hold of super-indelible, never-come-off-until-you're-dead colored markers.",
+  "authorFirstName": "Robert",
+  "authorLastName": "Munsch",
+  "numAvailable": -1,
+  "numTotal": -3,
+  "yearPublished": 1992
+}
