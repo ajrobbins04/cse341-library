@@ -5,7 +5,7 @@ const { auth } = require('express-openid-connect');
 const authSecret = process.env.AUTH_SECRET;
 const port = process.env.PORT || 8080;
 
-// Use auth0 to handle authentication
+// use auth0 to handle authentication
 const authConfig = {
   authRequired: false,
   auth0Logout: true,
@@ -15,7 +15,13 @@ const authConfig = {
   issuerBaseURL: 'https://dev-8qqmuiir80ktrcnx.us.auth0.com',
 };
 
-// Initialize authentication middleware
+// initialize authentication middleware
 const authMiddleware = auth(authConfig);
 
-module.exports = { authMiddleware };
+// makes the `user` object available for all views
+const setUserLocals = (req, res, next) => {
+  res.locals.user = req.oidc.user;
+  next();
+};
+
+module.exports = { authMiddleware, setUserLocals };

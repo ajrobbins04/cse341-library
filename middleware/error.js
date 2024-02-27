@@ -7,6 +7,4 @@ const sendError500 = async (err, req, res, next) => {
   });
 };
 
-module.exports = {
-  sendError500,
-};
+module.exports = { sendError500 };

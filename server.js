@@ -2,11 +2,12 @@
 const express = require('express');
 const bodyParser = require('body-parser'); // parses json requests
 const dotenv = require('dotenv').config(); // loads all environment variables from .env
-const swaggerUi = require('swagger-ui-express'); // apiDocument user interface
 const routes = require('./routes');
-const { connectDB } = require('./db/connect');
+const swaggerUi = require('swagger-ui-express'); // apiDocument user interface
 const swaggerDocument = require('./swagger.json'); // apiDocument (must come after interface)
-const error = require('./middleware/error');
+const { connectDB } = require('./db/connect');
+const { sendError500 } = require('./middleware/error');
+const { setUserLocals } = require('./middleware/auth');
 const { authMiddleware } = require('./middleware/auth');
 const { corsMiddleware } = require('./middleware/cors');
 
@@ -24,11 +25,14 @@ app.use(corsMiddleware);
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(authMiddleware);
 
+// middleware to make the 'user' object available for all views
+app.use(setUserLocals);
+
 // specify url paths for routes (includes books and auth) and apiDocumentation
 app
   .use('/', routes)
   .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-  .use(error.sendError500);
+  .use(sendError500);
 
 // create a port so the application can be tested on a browser
 app.listen(port, () => {
