@@ -3,4 +3,5 @@ const displayRootMsg = (req, res) => {
     `Add '/books' to the url to view all books, or '/api-docs' for API documentation!`,
   );
 };
+
 module.exports = { displayRootMsg };

@@ -1,5 +1,5 @@
+/* eslint-disable import/order */
 const express = require('express');
-const cors = require('cors'); // cross-origin requests
 const bodyParser = require('body-parser'); // parses json requests
 const dotenv = require('dotenv').config(); // loads all environment variables from .env
 const swaggerUi = require('swagger-ui-express'); // apiDocument user interface
@@ -7,6 +7,8 @@ const routes = require('./routes');
 const { connectDB } = require('./db/connect');
 const swaggerDocument = require('./swagger.json'); // apiDocument (must come after interface)
 const error = require('./middleware/error');
+const { authMiddleware } = require('./middleware/auth');
+const { corsMiddleware } = require('./middleware/cors');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -17,18 +19,15 @@ connectDB();
 // parses incoming json requests to
 // access this data from req.body
 app.use(bodyParser.json());
+app.use(corsMiddleware);
 
-// Use cors middleware to handle CORS headers
-const corsOptions = {
-  origin: '*',
-  methods: 'GET,PUT,POST,DELETE,OPTIONS',
-};
-app.use(cors(corsOptions));
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(authMiddleware);
 
-// specify url paths for apiDocumentation and books (which is in routes)
+// specify url paths for routes (includes books and auth) and apiDocumentation
 app
-  .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
   .use('/', routes)
+  .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
   .use(error.sendError500);
 
 // create a port so the application can be tested on a browser
