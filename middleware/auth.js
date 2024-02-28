@@ -1,18 +1,16 @@
 const dotenv = require('dotenv').config(); // loads all environment variables from .env
 const { auth } = require('express-openid-connect');
 
-// stored in env for authentication security
-const authSecret = process.env.AUTH_SECRET;
 const port = process.env.PORT || 8080;
 
 // use auth0 to handle authentication
 const authConfig = {
   authRequired: false,
   auth0Logout: true,
-  secret: authSecret,
+  secret: process.env.SESSION_SECRET,
   baseURL: `http://localhost:${port}`,
-  clientID: 'cffc1WgDMqOZAuHhYGw5wtYiigmCZRIy',
-  issuerBaseURL: 'https://dev-8qqmuiir80ktrcnx.us.auth0.com',
+  clientID: process.env.AUTH0_CLIENT_ID,
+  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
 };
 
 // initialize authentication middleware

@@ -1,12 +1,15 @@
 const express = require('express');
+const { requiresAuth } = require('express-openid-connect');
 const bookRoutes = require('./books');
-const indexController = require('../controllers/index');
 const swaggerRoutes = require('./swagger');
+const indexController = require('../controllers/index');
+const authController = require('../controllers/auth');
 
 const router = express.Router();
 
 router.use('/', swaggerRoutes); // mount to be included in apiDocs
-router.get('/', indexController.displayRoot); // handles user auth internally
+router.get('/', authController.authSignIn); // handles user auth internally
+router.get('/profile', requiresAuth(), authController.renderUserProfile);
 router.use('/books', bookRoutes);
 
 module.exports = router;
