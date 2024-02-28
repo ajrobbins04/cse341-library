@@ -8,7 +8,7 @@ const authController = require('../controllers/auth');
 const router = express.Router();
 
 router.use('/', swaggerRoutes); // mount to be included in apiDocs
-router.get('/', authController.authSignIn); // handles user auth internally
+router.get('/', indexController.displayIndexPage); // handles user auth internally
 router.get('/profile', requiresAuth(), authController.renderUserProfile);
 router.use('/books', bookRoutes);
 
