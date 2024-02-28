@@ -5,8 +5,11 @@ const renderUserProfile = (req, res) => {
   });
 };
 
-const isAuthenticated = (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+const authenticate = (req, res) => {
+  res.send({
+    title: 'Auth0 Webapp sample Nodejs',
+    isAuthenticated: req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out',
+  });
 };
 
-module.exports = { renderUserProfile, isAuthenticated };
+module.exports = { renderUserProfile, authenticate };
