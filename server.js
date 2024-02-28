@@ -10,7 +10,7 @@ const { sendError500 } = require('./middleware/error');
 const { setUserLocals } = require('./middleware/auth');
 const { authMiddleware } = require('./middleware/auth');
 const { corsMiddleware } = require('./middleware/cors');
-const expressLayouts = require('express-ejs-layouts');
+
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -21,8 +21,7 @@ connectDB();
 // access this data from req.body
 app.use(bodyParser.json());
 app.use(corsMiddleware);
-app.set('view engine', 'ejs');
-app.use(expressLayouts);
+
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(authMiddleware);
 

@@ -1,12 +1,12 @@
 const authSignIn = (req, res) => {
-  res.render('index', {
+  res.send('index', {
     title: 'Auth0 Webapp sample Nodejs',
     isAuthenticated: req.oidc.isAuthenticated(),
   });
 };
 
 const renderUserProfile = (req, res) => {
-  res.render('profile', {
+  res.send('profile', {
     userProfile: JSON.stringify(req.oidc.user, null, 2),
     title: 'Profile page',
   });
