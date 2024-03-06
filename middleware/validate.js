@@ -8,7 +8,7 @@ const checkBook = async (req, res, next) => {
     req.body.authorFirstName = 'N/A'; // default authorFirstName value when empty
   }
 
-  const validationRules = {
+  const bookValidationRules = {
     title: 'required|string',
     description: 'string',
     authorFirstName: 'string|max:50',
@@ -18,7 +18,7 @@ const checkBook = async (req, res, next) => {
     yearPublished: `required|integer|min:1600|max:${currentYear}`,
   };
 
-  await validator(req.body, validationRules, {}, (err, status) => {
+  await validator(req.body, bookValidationRules, {}, (err, status) => {
     if (!status) {
       // sends 'precondition failed' http status code
       res.status(412).send({
@@ -32,6 +32,32 @@ const checkBook = async (req, res, next) => {
     }
   }).catch((err) => next(err));
 };
+
+const checkAuthor = async (req, res, next) => {
+  if (!req.body.authorFirstName) {
+    req.body.authorFirstName = 'N/A'; // default authorFirstName value when empty
+  }
+
+  const authorValidationRules = {
+    authorFirstName: 'string|max:50',
+    authorLastName: 'required|string|max:50',
+  };
+
+  await validator(req.body, authorValidationRules, {}, (err, status) => {
+    if (!status) {
+      // sends 'precondition failed' http status code
+      res.status(412).send({
+        // properties are stored in the response body
+        success: false,
+        error: 'Author requirement validation failed',
+        details: err,
+      });
+    } else {
+      next(); // passes control to next middleware function w/o err if valid
+    }
+  }).catch((err) => next(err));
+};
 module.exports = {
   checkBook,
+  checkAuthor,
 };

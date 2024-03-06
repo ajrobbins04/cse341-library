@@ -5,7 +5,25 @@ const { ObjectId } = require('mongodb');
 const bookSchema = new mongoose.Schema({
   title: String,
   description: String,
-  author: [ObjectId], // is array to handle instances w/multiple authors
+  // is array to handle instances w/multiple authors
+  author: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Author' }],
+  genres: {
+    type: String,
+    enum: [
+      'Fiction',
+      'Picture Books',
+      'Fantasy',
+      'Mystery',
+      'Humor',
+      'Folklore',
+      'Historical Fiction',
+      'Realistic Fiction',
+      'Animal Fiction',
+      'Non-Fiction',
+      'Unspecified',
+    ],
+    default: 'Unspecified', // used when no genre is provided
+  },
   numAvailable: Number,
   numTotal: Number,
   yearPublished: Number,
