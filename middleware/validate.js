@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const validator = require('../helpers/validate');
 
 const checkBook = async (req, res, next) => {
@@ -11,8 +12,8 @@ const checkBook = async (req, res, next) => {
   const bookValidationRules = {
     title: 'required|string',
     description: 'string',
-    authorFirstName: 'string|max:50',
-    authorLastName: 'required|string|max:50',
+    author: 'required|ObjectId',
+    genres: 'string',
     numAvailable: 'required|integer|min:0', // numAvailable cannot be in negatives
     numTotal: 'required|integer|min:1', // at least 1 book must exist in inventory
     yearPublished: `required|integer|min:1600|max:${currentYear}`,

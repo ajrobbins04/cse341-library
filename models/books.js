@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { ObjectId } = require('mongodb');
 
 // define shape of documents w/in contacts collection
 const bookSchema = new mongoose.Schema({
