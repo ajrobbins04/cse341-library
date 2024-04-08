@@ -4,6 +4,7 @@ const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const { connectDB } = require('../db/connect');
 const Author = require('../models/authors');
+const Book = require('../models/books'); // for retrieving all author's books in inventory
 
 const getAllAuthors = async (req, res, next) => {
   try {
@@ -106,10 +107,31 @@ const deleteAuthor = async (req, res, next) => {
   }
 };
 
+const getAllBooksByAuthorId = async (req, res, next) => {
+  // retrieve id from request parameters
+  const authorId = new ObjectId(req.params.id);
+
+  try {
+    const books = await Book.find({ author: authorId }).populate('author');
+    if (!books) {
+      // return a 404 not found status response
+      return res.status(404).json({ error: 'Author not found' });
+    }
+
+    // respond with ok status and the books
+    return res.status(200).json(books);
+  } catch (err) {
+    // include error details
+    err.message = `Error occurred while retrieving books by author id: ${err.message}`;
+    next(err);
+  }
+};
+
 module.exports = {
   getAllAuthors,
   getAuthorById,
   addAuthor,
   updateAuthor,
   deleteAuthor,
+  getAllBooksByAuthorId,
 };

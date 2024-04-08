@@ -15,4 +15,7 @@ router.put('/:id', validation.checkAuthor, authorsController.updateAuthor);
 router.get('/:id', authorsController.getAuthorById);
 router.delete('/:id', authorsController.deleteAuthor);
 
+// get all books in inventory written by the same author
+router.get('/:id/books', authorsController.getAllBooksByAuthorId);
+
 module.exports = router;
