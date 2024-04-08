@@ -59,6 +59,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "author": {
+                  "example": "any"
+                },
                 "genres": {
                   "example": "any"
                 },
@@ -107,6 +110,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "author": {
+                  "example": "any"
+                },
                 "genres": {
                   "example": "any"
                 },

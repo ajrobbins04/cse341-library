@@ -1,9 +1,20 @@
 /* eslint-disable consistent-return */
 const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 const validator = require('../helpers/validate');
 
 const checkBook = async (req, res, next) => {
-  const currentYear = new Date().getFullYear(); // max yearPublished value
+  const currentYear = new Date().getFullYear(); // to check max yearPublished value
+
+  // check that authorId is a string before converting into objectID
+  if (typeof req.body.author !== 'string') {
+    return res.status(412).send({
+      success: false,
+      error: 'Author ID must be entered as a string',
+    });
+  }
+  const authorId = new ObjectId(req.body.author);
+  req.body.author = authorId;
 
   if (!req.body.genres) {
     req.body.genres = ['Unspecified']; // default genre when empty
@@ -33,7 +44,7 @@ const checkBook = async (req, res, next) => {
   const bookValidationRules = {
     title: 'required|string',
     description: 'required|string',
-    author: 'required|string|objectID',
+    author: 'required|objectID',
     genres: {
       rule: 'isIn',
       options: [genresOptions],
