@@ -18,9 +18,7 @@ const bookSchema = new mongoose.Schema({
       'Realistic Fiction',
       'Animal Fiction',
       'Non-Fiction',
-      'Unspecified',
     ],
-    default: 'Unspecified', // used when no genre is provided
   },
   numAvailable: Number,
   numTotal: Number,

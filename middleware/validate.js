@@ -6,13 +6,35 @@ const checkBook = async (req, res, next) => {
   if (!req.body.description) {
     req.body.description = 'N/A'; // default description value when empty
   } else if (!req.body.genres) {
-    req.body.genres = 'N/A';
+    req.body.description = 'N/A'; // default description value when empty
   }
+
+  const genresOptions = [
+    'Fiction',
+    'Picture Books',
+    'Fantasy',
+    'Mystery',
+    'Humor',
+    'Folklore',
+    'Historical Fiction',
+    'Realistic Fiction',
+    'Animal Fiction',
+    'Non-Fiction',
+    'Unspecified',
+  ];
+
   const bookValidationRules = {
     title: 'required|string',
-    description: 'string',
+    description: 'required|string',
     author: 'required|string', // string will be converted to an ObjectId
-    genres: 'array|string',
+    genres: [
+      'required|string',
+      {
+        rule: 'isInGenresOptions',
+        options: [genresOptions],
+        message: `Genres must be one of the following: ${genresOptions.join(', ')}`,
+      },
+    ],
     numAvailable: 'required|integer|min:0', // numAvailable cannot be in negatives
     numTotal: 'required|integer|min:1', // at least 1 book must exist in inventory
     yearPublished: `required|integer|min:1600|max:${currentYear}`,
