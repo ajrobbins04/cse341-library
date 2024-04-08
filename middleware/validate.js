@@ -9,7 +9,7 @@ const checkBook = async (req, res, next) => {
   const bookValidationRules = {
     title: 'required|string',
     description: 'string',
-    author: 'required|ObjectId',
+    author: 'required|string', // string will be converted to an ObjectId
     genres: 'array|string',
     numAvailable: 'required|integer|min:0', // numAvailable cannot be in negatives
     numTotal: 'required|integer|min:1', // at least 1 book must exist in inventory
