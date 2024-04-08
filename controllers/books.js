@@ -7,8 +7,8 @@ const Book = require('../models/books');
 
 const getAllBooks = async (req, res, next) => {
   try {
-    // find all books in the db
-    const books = await Book.find();
+    // find all books in the db, and populates author field with their names
+    const books = await Book.find().populate('author');
 
     // respond with ok status and the list of books
     return res.status(200).json(books);
@@ -25,7 +25,7 @@ const getBookById = async (req, res, next) => {
 
   try {
     // find and retrieve a specific book by id
-    const book = await Book.findById(bookId);
+    const book = await Book.findById(bookId).populate('author');
     if (!book) {
       // return a 404 not found status response
       return res.status(404).json({ error: 'Book not found' });
@@ -41,13 +41,14 @@ const getBookById = async (req, res, next) => {
 };
 
 const addBook = async (req, res, next) => {
+  // must convert authorId from string to ObjectId
+  const authorId = new ObjectId(req.params.author);
   try {
-    // use Book model to add a new book
     const book = new Book({
       // retrieve all necessary data from request body
       title: req.body.title,
       description: req.body.description,
-      author: req.body.author,
+      author: authorId,
       numAvailable: req.body.numAvailable,
       numTotal: req.body.numTotal,
       yearPublished: req.body.yearPublished,
@@ -66,8 +67,9 @@ const addBook = async (req, res, next) => {
 };
 
 const updateBook = async (req, res, next) => {
-  // retrieve id from request parameters
+  // retrieve book and author id's from request parameters
   const bookId = new ObjectId(req.params.id);
+  const authorId = new ObjectId(req.params.author);
   try {
     // retrieve book that will be updated by id
     const currBook = await Book.findById(bookId);
@@ -80,7 +82,7 @@ const updateBook = async (req, res, next) => {
     // Update the current book with the new data
     currBook.title = req.body.title;
     currBook.description = req.body.description;
-    currBook.author = req.body.author;
+    currBook.author = authorId;
     currBook.numAvailable = req.body.numAvailable;
     currBook.numTotal = req.body.numTotal;
     currBook.yearPublished = req.body.yearPublished;

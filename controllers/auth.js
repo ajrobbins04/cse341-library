@@ -7,7 +7,7 @@ const renderUserProfile = (req, res) => {
 
 const authenticate = (req, res) => {
   res.send({
-    title: 'Auth0 Webapp sample Nodejs',
+    title: 'Childrens Book API',
     isAuthenticated: req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out',
   });
 };
