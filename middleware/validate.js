@@ -44,7 +44,7 @@ const checkBook = async (req, res, next) => {
   const bookValidationRules = {
     title: 'required|string',
     description: 'required|string',
-    author: 'required|objectID',
+    author: 'required', // will be converted to objectId by this point
     genres: {
       rule: 'isIn',
       options: [genresOptions],
