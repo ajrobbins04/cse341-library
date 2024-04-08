@@ -59,13 +59,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "description": {
-                  "example": "any"
-                },
                 "genres": {
                   "example": "any"
                 },
                 "title": {
+                  "example": "any"
+                },
+                "description": {
                   "example": "any"
                 },
                 "numAvailable": {
@@ -107,13 +107,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "description": {
-                  "example": "any"
-                },
                 "genres": {
                   "example": "any"
                 },
                 "title": {
+                  "example": "any"
+                },
+                "description": {
                   "example": "any"
                 },
                 "numAvailable": {

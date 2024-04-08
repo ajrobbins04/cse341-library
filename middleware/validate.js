@@ -1,12 +1,21 @@
+/* eslint-disable consistent-return */
 const mongoose = require('mongoose');
 const validator = require('../helpers/validate');
 
 const checkBook = async (req, res, next) => {
   const currentYear = new Date().getFullYear(); // max yearPublished value
-  if (!req.body.genres) {
-    req.body.genres = 'Unspecified'; // default genre when empty
-  }
 
+  if (!req.body.genres) {
+    req.body.genres = ['Unspecified']; // default genre when empty
+  } else if (
+    !Array.isArray(req.body.genres) ||
+    req.body.genres.every((item) => typeof item === 'string')
+  ) {
+    return res.status(412).send({
+      success: false,
+      error: 'Genres must be an array of strings',
+    });
+  }
   const genresOptions = [
     'Fiction',
     'Picture Books',
@@ -24,15 +33,12 @@ const checkBook = async (req, res, next) => {
   const bookValidationRules = {
     title: 'required|string',
     description: 'required|string',
-    author: 'required|string', // string will be converted to an ObjectId
-    genres: [
-      { rule: 'string', message: 'Genres must be one or more strings' },
-      {
-        rule: 'isIn',
-        options: [genresOptions],
-        message: `Genres must be one of the following: ${genresOptions.join(', ')}`,
-      },
-    ],
+    author: 'required|string|objectID',
+    genres: {
+      rule: 'isIn',
+      options: [genresOptions],
+      message: `Genres must be one of the following: ${genresOptions.join(', ')}`,
+    },
     numAvailable: 'required|integer|min:0', // numAvailable cannot be in negatives
     numTotal: 'required|integer|min:1', // at least 1 book must exist in inventory
     yearPublished: `required|integer|min:1600|max:${currentYear}`,
