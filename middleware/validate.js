@@ -20,7 +20,7 @@ const checkBook = async (req, res, next) => {
     req.body.genres = ['Unspecified']; // default genre when empty
   } else if (
     !Array.isArray(req.body.genres) ||
-    req.body.genres.every((item) => typeof item === 'string')
+    req.body.genres.every((item) => typeof item !== 'string')
   ) {
     return res.status(412).send({
       success: false,
