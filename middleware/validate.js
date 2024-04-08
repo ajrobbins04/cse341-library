@@ -3,10 +3,8 @@ const validator = require('../helpers/validate');
 
 const checkBook = async (req, res, next) => {
   const currentYear = new Date().getFullYear(); // max yearPublished value
-  if (!req.body.description) {
-    req.body.description = 'N/A'; // default description value when empty
-  } else if (!req.body.genres) {
-    req.body.description = 'N/A'; // default description value when empty
+  if (!req.body.genres) {
+    req.body.genres = 'Unspecified'; // default genre when empty
   }
 
   const genresOptions = [
@@ -28,9 +26,9 @@ const checkBook = async (req, res, next) => {
     description: 'required|string',
     author: 'required|string', // string will be converted to an ObjectId
     genres: [
-      'required|string',
+      { rule: 'string', message: 'Genres must be one or more strings' },
       {
-        rule: 'isInGenresOptions',
+        rule: 'isIn',
         options: [genresOptions],
         message: `Genres must be one of the following: ${genresOptions.join(', ')}`,
       },
@@ -62,7 +60,7 @@ const checkAuthor = async (req, res, next) => {
 
   const authorValidationRules = {
     authorFirstName: 'string|max:50',
-    authorLastName: 'required|string|max:50',
+    authorLastName: 'required|string|min:2|max:50',
   };
 
   await validator(req.body, authorValidationRules, {}, (err, status) => {
