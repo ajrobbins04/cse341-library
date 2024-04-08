@@ -5,15 +5,12 @@ const checkBook = async (req, res, next) => {
   const currentYear = new Date().getFullYear(); // max yearPublished value
   if (!req.body.description) {
     req.body.description = 'N/A'; // default description value when empty
-  } else if (!req.body.authorFirstName) {
-    req.body.authorFirstName = 'N/A'; // default authorFirstName value when empty
   }
-
   const bookValidationRules = {
     title: 'required|string',
     description: 'string',
     author: 'required|ObjectId',
-    genres: 'string',
+    genres: 'array|string',
     numAvailable: 'required|integer|min:0', // numAvailable cannot be in negatives
     numTotal: 'required|integer|min:1', // at least 1 book must exist in inventory
     yearPublished: `required|integer|min:1600|max:${currentYear}`,

@@ -4,10 +4,9 @@ const mongoose = require('mongoose');
 const bookSchema = new mongoose.Schema({
   title: String,
   description: String,
-  // is array to handle instances w/multiple authors
-  author: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Author' }],
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' },
   genres: {
-    type: String,
+    type: [String],
     enum: [
       'Fiction',
       'Picture Books',

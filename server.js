@@ -1,10 +1,10 @@
 /* eslint-disable import/order */
 const express = require('express');
 const bodyParser = require('body-parser'); // parses json requests
-const dotenv = require('dotenv').config(); // loads all environment variables from .env
 const routes = require('./routes');
 const swaggerUi = require('swagger-ui-express'); // apiDocument user interface
 const swaggerDocument = require('./swagger.json'); // apiDocument (must come after interface)
+const { PORT } = require('./helpers/config');
 const { connectDB } = require('./db/connect');
 const { sendError500 } = require('./middleware/error');
 const { setUserLocals } = require('./middleware/auth');
@@ -12,7 +12,7 @@ const { authMiddleware } = require('./middleware/auth');
 const { corsMiddleware } = require('./middleware/cors');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = PORT || 8080;
 
 // handles possible errors internally
 connectDB();

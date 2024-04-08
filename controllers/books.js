@@ -47,8 +47,7 @@ const addBook = async (req, res, next) => {
       // retrieve all necessary data from request body
       title: req.body.title,
       description: req.body.description,
-      authorFirstName: req.body.authorFirstName,
-      authorLastName: req.body.authorLastName,
+      author: req.body.author,
       numAvailable: req.body.numAvailable,
       numTotal: req.body.numTotal,
       yearPublished: req.body.yearPublished,
@@ -81,8 +80,7 @@ const updateBook = async (req, res, next) => {
     // Update the current book with the new data
     currBook.title = req.body.title;
     currBook.description = req.body.description;
-    currBook.authorFirstName = req.body.authorFirstName;
-    currBook.authorLastName = req.body.authorLastName;
+    currBook.author = req.body.author;
     currBook.numAvailable = req.body.numAvailable;
     currBook.numTotal = req.body.numTotal;
     currBook.yearPublished = req.body.yearPublished;
@@ -90,11 +88,11 @@ const updateBook = async (req, res, next) => {
     // Save the updated book
     const result = await currBook.save();
 
-    // send 204 status when book is successfully updated
+    // send 204 status when the update is complete
     res.status(204).send();
   } catch (err) {
     // include error details
-    err.message = `Error occurred while updating book: ${err.message}`;
+    err.message = `Error occurred while updating a book: ${err.message}`;
     next(err);
   }
 };
@@ -109,7 +107,7 @@ const deleteBook = async (req, res, next) => {
     if (!result) {
       return res.status(404).json({ error: 'Book not found' });
     }
-    // send 200 status when book successfully deleted
+    // send 200 status when book is successfully deleted
     res.status(200).send();
   } catch (err) {
     // include error details
