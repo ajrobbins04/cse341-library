@@ -5,6 +5,8 @@ const checkBook = async (req, res, next) => {
   const currentYear = new Date().getFullYear(); // max yearPublished value
   if (!req.body.description) {
     req.body.description = 'N/A'; // default description value when empty
+  } else if (!req.body.genres) {
+    req.body.genres = 'N/A';
   }
   const bookValidationRules = {
     title: 'required|string',

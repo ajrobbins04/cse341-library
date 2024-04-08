@@ -62,10 +62,10 @@
                 "description": {
                   "example": "any"
                 },
-                "title": {
+                "genres": {
                   "example": "any"
                 },
-                "author": {
+                "title": {
                   "example": "any"
                 },
                 "numAvailable": {
@@ -110,10 +110,10 @@
                 "description": {
                   "example": "any"
                 },
-                "title": {
+                "genres": {
                   "example": "any"
                 },
-                "author": {
+                "title": {
                   "example": "any"
                 },
                 "numAvailable": {
