@@ -20,12 +20,9 @@ const getAllAuthors = async (req, res, next) => {
 };
 
 const getAuthorById = async (req, res, next) => {
-  // retrieve id from request parameters
-  const authorId = new ObjectId(req.params.id);
-
   try {
-    // find and retrieve a specific author by id
-    const author = await Author.findById(authorId);
+    // req.params.id is in valid objectID form at this point
+    const author = await Author.findById(req.params.id);
     if (!author) {
       // return a 404 not found status response
       return res.status(404).json({ error: 'Author not found' });
@@ -61,11 +58,9 @@ const addAuthor = async (req, res, next) => {
 };
 
 const updateAuthor = async (req, res, next) => {
-  // retrieve id from request parameters
-  const authorId = new ObjectId(req.params.id);
   try {
-    // retrieve author that will be updated by id
-    const currAuthor = await Author.findById(authorId);
+    // req.params.id is in valid objectID form at this point
+    const currAuthor = await Author.findById(req.params.id);
 
     if (!currAuthor) {
       // the author with the given ID is not found
@@ -89,11 +84,9 @@ const updateAuthor = async (req, res, next) => {
 };
 
 const deleteAuthor = async (req, res, next) => {
-  // retrieve id from request parameters
-  const authorId = new ObjectId(req.params.id);
   try {
-    // delete author by the associated id
-    const result = await Author.findByIdAndDelete(authorId);
+    // req.params.id is in valid objectID form at this point
+    const result = await Author.findByIdAndDelete(req.params.id);
 
     if (!result) {
       return res.status(404).json({ error: 'Author not found' });
@@ -108,11 +101,10 @@ const deleteAuthor = async (req, res, next) => {
 };
 
 const getAllBooksByAuthorId = async (req, res, next) => {
-  // retrieve id from request parameters
-  const authorId = new ObjectId(req.params.id);
-
   try {
-    const books = await Book.find({ author: authorId }).populate('author');
+    // req.params.id is in valid objectID form at this point
+    // the author field will be populated w/the author's name
+    const books = await Book.find({ author: req.params.id }).populate('author');
     if (!books) {
       // return a 404 not found status response
       return res.status(404).json({ error: 'Author not found' });

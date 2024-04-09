@@ -11,9 +11,15 @@ router.get('/', booksController.getAllBooks);
 
 // verify book data meets requirements before adding/updating it
 router.post('/', validation.checkBook, booksController.addBook);
-router.put('/:id', validation.checkBook, booksController.updateBook);
+router.put(
+  '/:id',
+  validation.checkIdParams, // ensure book ID is in valid form
+  validation.checkAuthorField, // ensure author ID is in valid form
+  validation.checkBook,
+  booksController.updateBook,
+);
 
-router.get('/:id', booksController.getBookById);
-router.delete('/:id', booksController.deleteBook);
+router.get('/:id', validation.checkIdParams, booksController.getBookById);
+router.delete('/:id', validation.checkIdParams, booksController.deleteBook);
 
 module.exports = router;

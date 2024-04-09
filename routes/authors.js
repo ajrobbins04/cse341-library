@@ -10,12 +10,23 @@ router.get('/', authorsController.getAllAuthors);
 
 // verify book data meets requirements before adding/updating it
 router.post('/', validation.checkAuthor, authorsController.addAuthor);
-router.put('/:id', validation.checkAuthor, authorsController.updateAuthor);
+router.put(
+  '/:id',
+  validation.checkIdParams, // first ensure id's validity
+  validation.checkAuthor, // ensure additional rules are valid
+  authorsController.updateAuthor,
+);
 
-router.get('/:id', authorsController.getAuthorById);
-router.delete('/:id', authorsController.deleteAuthor);
+router.get('/:id', validation.checkIdParams, authorsController.getAuthorById);
+
+// TO DO: add referential integrity check!
+router.delete('/:id', validation.checkIdParams, authorsController.deleteAuthor);
 
 // get all books in inventory written by the same author
-router.get('/:id/books', authorsController.getAllBooksByAuthorId);
+router.get(
+  '/:id/books',
+  validation.checkAuthorField,
+  authorsController.getAllBooksByAuthorId,
+);
 
 module.exports = router;

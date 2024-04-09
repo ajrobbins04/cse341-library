@@ -4,6 +4,7 @@ const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const { connectDB } = require('../db/connect');
 const Book = require('../models/books');
+const Author = require('../models/authors');
 
 const getAllBooks = async (req, res, next) => {
   try {
@@ -20,12 +21,10 @@ const getAllBooks = async (req, res, next) => {
 };
 
 const getBookById = async (req, res, next) => {
-  // retrieve id from request parameters
-  const bookId = new ObjectId(req.params.id);
-
   try {
-    // find and retrieve a specific book by id
-    const book = await Book.findById(bookId).populate('author');
+    // req.params.id is in valid objectID form at this point
+    // the author field will be populated w/the author's name
+    const book = await Book.findById(req.params.id).populate('author');
     if (!book) {
       // return a 404 not found status response
       return res.status(404).json({ error: 'Book not found' });
@@ -41,14 +40,12 @@ const getBookById = async (req, res, next) => {
 };
 
 const addBook = async (req, res, next) => {
-  // must convert authorId from string to ObjectId
-  const authorId = new ObjectId(req.params.author);
   try {
     const book = new Book({
       // retrieve all necessary data from request body
       title: req.body.title,
       description: req.body.description,
-      author: authorId,
+      author: req.params.author,
       numAvailable: req.body.numAvailable,
       numTotal: req.body.numTotal,
       yearPublished: req.body.yearPublished,
@@ -67,16 +64,21 @@ const addBook = async (req, res, next) => {
 };
 
 const updateBook = async (req, res, next) => {
-  // retrieve book and author id's from request parameters
-  const bookId = new ObjectId(req.params.id);
-  const authorId = new ObjectId(req.params.author);
   try {
     // retrieve book that will be updated by id
-    const currBook = await Book.findById(bookId);
+    const currBook = await Book.findById(req.params.id);
+    const newAuthor = await Author.findById(req.body.author);
 
     if (!currBook) {
       // the book with the given ID is not found
       return res.status(404).json({ error: 'Book not found.' });
+    }
+
+    if (!newAuthor) {
+      // the new authorID is not found in the DB
+      return res
+        .status(404)
+        .json({ error: 'New author not found in the database.' });
     }
 
     // Update the current book with the new data

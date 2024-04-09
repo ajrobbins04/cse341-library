@@ -3,10 +3,21 @@ const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 const validator = require('../helpers/validate');
 
-const checkBook = async (req, res, next) => {
-  const currentYear = new Date().getFullYear(); // to check max yearPublished value
-
+const checkIdParams = async (req, res, next) => {
   // check that authorId is a string before converting into objectID
+  if (typeof req.params.id !== 'string') {
+    return res.status(412).send({
+      success: false,
+      error: 'ID must be entered as a string',
+    });
+  }
+  const validId = new ObjectId(req.params.id);
+  req.params.id = validId;
+  next();
+};
+
+const checkAuthorField = async (req, res, next) => {
+  // check that author field is a string before converting into objectID
   if (typeof req.body.author !== 'string') {
     return res.status(412).send({
       success: false,
@@ -15,6 +26,11 @@ const checkBook = async (req, res, next) => {
   }
   const authorId = new ObjectId(req.body.author);
   req.body.author = authorId;
+  next();
+};
+
+const checkBook = async (req, res, next) => {
+  const currentYear = new Date().getFullYear(); // to check max yearPublished value
 
   if (!req.body.genres) {
     req.body.genres = ['Unspecified']; // default genre when empty
@@ -41,10 +57,11 @@ const checkBook = async (req, res, next) => {
     'Unspecified',
   ];
 
+  // author validation handled by checkAuthorIdField() next
   const bookValidationRules = {
     title: 'required|string',
     description: 'required|string',
-    author: 'required', // will be converted to objectId by this point
+    author: 'required', // will be valid & converted to objectId by this point
     genres: {
       rule: 'isIn',
       options: [genresOptions],
@@ -95,6 +112,8 @@ const checkAuthor = async (req, res, next) => {
   }).catch((err) => next(err));
 };
 module.exports = {
+  checkIdParams,
+  checkAuthorField,
   checkBook,
   checkAuthor,
 };
