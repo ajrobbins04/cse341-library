@@ -13,8 +13,8 @@ router.get('/', booksController.getAllBooks);
 router.post('/', validation.checkBook, booksController.addBook);
 router.put(
   '/:id',
-  validation.checkIdParams, // ensure book ID is in valid form
-  validation.checkAuthorField, // ensure author ID is in valid form
+  validation.checkIdParams, // ensure book ID is in a valid form
+  validation.checkAuthorField, // ensure author ID is in a valid form
   validation.checkBook,
   booksController.updateBook,
 );

@@ -67,24 +67,25 @@ const updateBook = async (req, res, next) => {
   try {
     // retrieve book that will be updated by id
     const currBook = await Book.findById(req.params.id);
-    const newAuthor = await Author.findById(req.body.author);
+    // check that the author provided is in the db
+    const author = await Author.findById(req.body.author);
 
     if (!currBook) {
       // the book with the given ID is not found
       return res.status(404).json({ error: 'Book not found.' });
     }
 
-    if (!newAuthor) {
-      // the new authorID is not found in the DB
+    if (!author) {
+      // the author with the given ID is not found
       return res
         .status(404)
-        .json({ error: 'New author not found in the database.' });
+        .json({ error: 'Author not found in the database.' });
     }
 
     // Update the current book with the new data
     currBook.title = req.body.title;
     currBook.description = req.body.description;
-    currBook.author = newAuthor;
+    currBook.author = author;
     currBook.numAvailable = req.body.numAvailable;
     currBook.numTotal = req.body.numTotal;
     currBook.yearPublished = req.body.yearPublished;

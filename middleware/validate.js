@@ -64,7 +64,7 @@ const checkBook = async (req, res, next) => {
     author: 'required', // will be valid & converted to objectId by this point
     genres: {
       rule: 'isIn',
-      options: [genresOptions],
+      options: genresOptions,
       message: `Genres must be one of the following: ${genresOptions.join(', ')}`,
     },
     numAvailable: 'required|integer|min:0', // numAvailable cannot be in negatives
