@@ -84,7 +84,7 @@ const updateBook = async (req, res, next) => {
     // Update the current book with the new data
     currBook.title = req.body.title;
     currBook.description = req.body.description;
-    currBook.author = authorId;
+    currBook.author = newAuthor;
     currBook.numAvailable = req.body.numAvailable;
     currBook.numTotal = req.body.numTotal;
     currBook.yearPublished = req.body.yearPublished;
