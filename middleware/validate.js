@@ -114,6 +114,7 @@ const checkAuthor = async (req, res, next) => {
     next(); // passes control to next middleware function w/o err if valid
   }).catch((err) => next(err));
 };
+
 module.exports = {
   checkIdParams,
   checkAuthorField,

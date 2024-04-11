@@ -3,7 +3,6 @@ const { requiresAuth } = require('express-openid-connect');
 const bookRoutes = require('./books');
 const authorRoutes = require('./authors');
 const swaggerRoutes = require('./swagger');
-const indexController = require('../controllers/index');
 const authController = require('../controllers/auth');
 
 const router = express.Router();
