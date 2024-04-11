@@ -32,20 +32,24 @@ const checkAuthorField = async (req, res, next) => {
 const checkBook = async (req, res, next) => {
   const currentYear = new Date().getFullYear(); // to check max yearPublished value
 
-  if (!req.body.genres) {
-    req.body.genres = ['Unspecified']; // default genre when empty
-  } else if (
-    !Array.isArray(req.body.genres) ||
-    req.body.genres.every((item) => typeof item !== 'string')
-  ) {
+  // check if genre is empty
+  if (!req.body.genre) {
+    req.body.genre = 'Unspecified'; // default genre when empty
+  } else if (req.body.genre !== 'string') {
     return res.status(412).send({
       success: false,
-      error: 'Genres must be an array of strings',
+      error: 'Genre must be a string',
+    }); // numAvailable can never exceed numTotal in book's inventory
+  } else if (req.body.numAvailable > req.body.numTotal) {
+    return res.status(412).send({
+      success: false,
+      error: 'Number available cannot exceed total number of books',
     });
   }
+
   const genresOptions = [
     'Fiction',
-    'Picture Books',
+    'Picture Book',
     'Fantasy',
     'Mystery',
     'Humor',
@@ -62,15 +66,17 @@ const checkBook = async (req, res, next) => {
     title: 'required|string',
     description: 'required|string',
     author: 'required', // will be valid & converted to objectId by this point
-    genres: {
+    genre: {
       rule: 'isIn',
       options: genresOptions,
-      message: `Genres must be one or more of the following: ${genresOptions.join(', ')}`,
+      message: `Genre must be one of the following: ${genresOptions.join(', ')}`,
     },
+    isPictureBook: 'required|boolean',
     numAvailable: 'required|integer|min:0', // numAvailable cannot be in negatives
     numTotal: 'required|integer|min:1', // at least 1 book must exist in inventory
     yearPublished: `required|integer|min:1600|max:${currentYear}`,
   };
+
   await validator(req.body, bookValidationRules, {}, (err, status) => {
     if (!status) {
       // sends 'precondition failed' http status code

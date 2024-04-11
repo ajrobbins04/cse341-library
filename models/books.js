@@ -5,11 +5,10 @@ const bookSchema = new mongoose.Schema({
   title: String,
   description: String,
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'Author' },
-  genres: {
-    type: [String],
+  genre: {
+    type: String,
     enum: [
       'Fiction',
-      'Picture Books',
       'Fantasy',
       'Mystery',
       'Humor',
@@ -18,8 +17,10 @@ const bookSchema = new mongoose.Schema({
       'Realistic Fiction',
       'Animal Fiction',
       'Non-Fiction',
+      'Unspecified',
     ],
   },
+  isPictureBook: Boolean,
   numAvailable: Number,
   numTotal: Number,
   yearPublished: Number,
